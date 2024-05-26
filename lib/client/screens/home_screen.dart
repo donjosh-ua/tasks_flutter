@@ -6,6 +6,7 @@ import 'package:test/client/screens/login_screen.dart';
 import 'package:test/client/services/google_sevice.dart';
 import 'package:test/client/widgets/floating_filter_bar.dart';
 import 'package:test/client/widgets/task_card.dart';
+import 'package:test/server/database/task_repository.dart';
 import 'package:test/shared/constants/colors.dart';
 import 'package:test/shared/constants/config.dart';
 
@@ -19,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String filter = 'all';
+  final ScrollController _scrollController = ScrollController();
 
   void updateFilter(String newFilter) {
     setState(() {
@@ -28,6 +30,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -88,32 +100,22 @@ class _HomeScreenState extends State<HomeScreen> {
         Padding(
           padding: const EdgeInsets.only(top: 52, bottom: 30),
           child: StreamBuilder<QuerySnapshot>(
-            stream: filter == 'all'
-                ? FirebaseFirestore.instance
-                    .collection('Task')
-                    .where('userID', isEqualTo: widget.userID)
-                    .snapshots()
-                : filter == 'pending'
-                    ? FirebaseFirestore.instance
-                        .collection('Task')
-                        .where('userID', isEqualTo: widget.userID)
-                        .where('state', isEqualTo: false)
-                        .snapshots()
-                    : FirebaseFirestore.instance
-                        .collection('Task')
-                        .where('userID', isEqualTo: widget.userID)
-                        .where('state', isEqualTo: true)
-                        .snapshots(),
+            stream: TaskRepository().getTasks(widget.userID, filter: filter),
             builder: (context, snapshot) {
-              // for snapshot in snapshots
               if (!snapshot.hasData) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
               return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
+                  controller: _scrollController,
+                  itemCount: snapshot.data!.docs.length + 1,
                   itemBuilder: (context, index) {
+                    if (index == snapshot.data?.docs.length) {
+                      // Return a SizedBox at the end of the ListView
+                      return const SizedBox(height: 80);
+                    }
+
                     Map<String, dynamic> document = snapshot.data?.docs[index]
                         .data() as Map<String, dynamic>;
                     return Center(
@@ -150,10 +152,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                 date: document['date'],
                                 state: document['state'],
                                 onDelete: () {
-                                  FirebaseFirestore.instance
-                                      .collection('Task')
-                                      .doc(snapshot.data?.docs[index].id)
-                                      .delete();
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Confirmación'),
+                                          content: const Text(
+                                              '¿Estás seguro de que quieres eliminar esta tarea?'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  context, 'Cancel'),
+                                              child: const Text('Cancel'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                FirebaseFirestore.instance
+                                                    .collection('Task')
+                                                    .doc(snapshot
+                                                        .data?.docs[index].id)
+                                                    .delete();
+                                                Navigator.pop(context, 'OK');
+                                              },
+                                              child: const Text('Eliminar'),
+                                            ),
+                                          ],
+                                        );
+                                      });
                                 },
                               ),
                             ),

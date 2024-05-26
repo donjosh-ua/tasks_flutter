@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test/client/screens/login_screen.dart';
+import 'package:test/client/widgets/snack_bar.dart';
 import 'package:test/shared/constants/colors.dart';
 import 'package:test/shared/constants/config.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
@@ -86,11 +87,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   MaterialPageRoute(builder: (builder) => const LoginScreen()),
                   (route) => false);
             } catch (e) {
-              final snackBar = SnackBar(
-                content: Text(e.toString()),
-                duration: const Duration(seconds: 5),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              ScaffoldMessenger.of(context).showSnackBar(snackBar(
+                  context, 'El correo o la contraseña son inválidos', true));
               setState(() {
                 circular = false;
               });

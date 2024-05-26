@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:test/client/widgets/date_field.dart';
+import 'package:test/client/widgets/snack_bar.dart';
 import 'package:test/client/widgets/text_area.dart';
 import 'package:test/client/widgets/text_field.dart';
 import 'package:test/shared/constants/colors.dart';
@@ -86,6 +87,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               'userID': widget.userID,
             });
             Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+                snackBar(context, 'Has creado una nueva tarea!', false));
           },
           backgroundColor: accentPurple,
           elevation: 0,

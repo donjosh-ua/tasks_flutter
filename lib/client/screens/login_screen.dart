@@ -3,6 +3,7 @@ import 'package:test/client/screens/home_screen.dart';
 import 'package:test/client/screens/signup_screen.dart';
 import 'package:test/client/services/google_sevice.dart';
 import 'package:test/client/widgets/button_icon.dart';
+import 'package:test/client/widgets/snack_bar.dart';
 import 'package:test/client/widgets/text_field.dart';
 import 'package:test/shared/constants/colors.dart';
 import 'package:test/shared/constants/config.dart';
@@ -110,8 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget colorButton(String text) {
     return Container(
-      width: MediaQuery.of(context).size.width - horizontalScreenPadding,
-      height: 80,
       alignment: Alignment.center,
       child: SizedBox(
         width: MediaQuery.of(context).size.width - horizontalScreenPadding,
@@ -135,11 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           HomeScreen(userID: _auth.currentUser!.uid)),
                   (route) => false);
             } catch (e) {
-              final snackBar = SnackBar(
-                content: Text(e.toString()),
-                duration: const Duration(seconds: 5),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              ScaffoldMessenger.of(context).showSnackBar(
+                  snackBar(context, 'Error al iniciar sesión', true));
               setState(() {
                 circular = false;
               });

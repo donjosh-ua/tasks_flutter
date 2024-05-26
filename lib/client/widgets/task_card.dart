@@ -21,7 +21,7 @@ class TaskCard extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width - smallHorizontalScreenPadding,
       height: cardHeight,
-      child: Card.filled(
+      child: Card(
         elevation: cardElevation,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(cardRadius),
@@ -32,28 +32,35 @@ class TaskCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: darkPurple),
-                  ),
-                  Text(
-                    state
-                        ? 'Completada'
-                        : 'Pendiente', // Display the state of the task
-                    style: TextStyle(
-                        fontSize: 16, color: state ? lightGreen : lightRed),
-                  ),
-                  Text(
-                    date, // Display the date
-                    style: const TextStyle(fontSize: 16, color: darkGray),
-                  ),
-                ],
+                        color: darkPurple,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      date, // Display the date
+                      style: const TextStyle(fontSize: 16, color: darkGray),
+                    ),
+                    Text(
+                      state
+                          ? 'Completada'
+                          : 'Pendiente', // Display the state of the task
+                      style: TextStyle(
+                          fontSize: 16, color: state ? lightGreen : lightRed),
+                    ),
+                  ],
+                ),
               ),
               IconButton(
                 icon: const Icon(Icons.delete),

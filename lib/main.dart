@@ -8,7 +8,7 @@ import 'package:test/client/screens/login_screen.dart';
 
 void main() async {
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.web,
   );
   runApp(const MyApp());
 }
