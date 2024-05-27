@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:test/client/widgets/date_field.dart';
 import 'package:test/client/widgets/snack_bar.dart';
 import 'package:test/client/widgets/text_area.dart';
 import 'package:test/client/widgets/text_field.dart';
+import 'package:test/server/database/task_repository.dart';
 import 'package:test/shared/constants/colors.dart';
 import 'package:test/shared/constants/config.dart';
 
@@ -90,7 +90,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         height: 80,
         child: FloatingActionButton(
           onPressed: () {
-            FirebaseFirestore.instance.collection('Task').add({
+            TaskRepository().addTask({
               'title': _titleController.text,
               'description': _descriptionController.text,
               'date': _dateController.text,

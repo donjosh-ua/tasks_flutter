@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           await FirebaseFirestore.instance
                               .collection('Task')
                               .doc(snapshot.data?.docs[index].id as String)
-                              .update({'state': true});
+                              .update({'state': !document['state']});
                           return false;
                         },
                         child: SizedBox(
@@ -158,34 +158,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('Confirmación'),
-                                          content: const Text(
-                                              '¿Estás seguro de que quieres eliminar esta tarea?'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () => Navigator.pop(
-                                                  context, 'Cancel'),
-                                              child: const Text('Cancel'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                FirebaseFirestore.instance
-                                                    .collection('Task')
-                                                    .doc(snapshot
-                                                        .data?.docs[index].id)
-                                                    .delete();
-                                                Navigator.pop(context, 'OK');
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackBar(
-                                                        context,
-                                                        'Se ha eliminado la tarea',
-                                                        true));
-                                              },
-                                              child: const Text('Eliminar'),
-                                            ),
-                                          ],
-                                        );
+                                        return alertDialog(() {
+                                          TaskRepository().deleteTask(snapshot
+                                              .data?.docs[index].id as String);
+                                        });
                                       });
                                 },
                               ),
@@ -216,6 +192,28 @@ class _HomeScreenState extends State<HomeScreen> {
           onFilterChanged: updateFilter,
         ),
       ),
+    );
+  }
+
+  Widget alertDialog(Function onDelete) {
+    return AlertDialog(
+      title: const Text('Confirmación'),
+      content: const Text('¿Estás seguro de que quieres eliminar esta tarea?'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Cancel'),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            onDelete();
+            Navigator.pop(context, 'OK');
+            ScaffoldMessenger.of(context).showSnackBar(
+                snackBar(context, 'Se ha eliminado la tarea', true));
+          },
+          child: const Text('Eliminar'),
+        ),
+      ],
     );
   }
 }

@@ -62,7 +62,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            if (_emailController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBar(context, 'Ingrese un correo', true));
+                              return;
+                            }
+                            await _auth.sendPasswordResetEmail(
+                                email: _emailController.text);
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar(
+                                context,
+                                'Se ha enviado un mensaje a tu correo',
+                                false));
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar(
+                                context, 'Error al enviar correo', true));
+                          }
+                        },
                         child: const Text(
                           "¿Olvidaste tu contraseña?",
                           style: TextStyle(
@@ -87,12 +104,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       buttonIcon("assets/icons/google_logo.png", () async {
                         await authService.googleSigIn(context);
                       }),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      buttonIcon("assets/icons/github_logo.png", () async {
-                        // await authService.githubSignIn(context);
-                      }),
+                      // const SizedBox(
+                      //   width: 15,
+                      // ),
+                      // buttonIcon("assets/icons/github_logo.png", () async {
+                      //   // await authService.githubSignIn(context);
+                      // }),
                     ],
                   ),
                   const SizedBox(height: 10.0),

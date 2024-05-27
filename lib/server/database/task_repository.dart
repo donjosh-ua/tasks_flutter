@@ -38,7 +38,7 @@ class TaskRepository {
     await _db.collection('Task').doc(id).delete();
   }
 
-  Future<void> updateTask(Map<String, dynamic> taskData, String id) async {
+  Future<void> updateTask(String id, Map<String, dynamic> taskData) async {
     await _db.collection('Task').doc(id).update(taskData);
   }
 }
