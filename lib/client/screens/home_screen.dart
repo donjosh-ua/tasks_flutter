@@ -5,6 +5,7 @@ import 'package:test/client/screens/edit_task_screen.dart';
 import 'package:test/client/screens/login_screen.dart';
 import 'package:test/client/services/google_sevice.dart';
 import 'package:test/client/widgets/floating_filter_bar.dart';
+import 'package:test/client/widgets/snack_bar.dart';
 import 'package:test/client/widgets/task_card.dart';
 import 'package:test/server/database/task_repository.dart';
 import 'package:test/shared/constants/colors.dart';
@@ -175,6 +176,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         .data?.docs[index].id)
                                                     .delete();
                                                 Navigator.pop(context, 'OK');
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar(
+                                                        context,
+                                                        'Se ha eliminado la tarea',
+                                                        true));
                                               },
                                               child: const Text('Eliminar'),
                                             ),

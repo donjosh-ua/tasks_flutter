@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:test/client/widgets/date_field.dart';
+import 'package:test/client/widgets/snack_bar.dart';
 import 'package:test/client/widgets/text_area.dart';
 import 'package:test/client/widgets/text_field.dart';
 import 'package:test/shared/constants/colors.dart';
@@ -88,6 +89,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       'date': _dateController.text,
                     });
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        snackBar(context, 'Has editado una tarea', false));
                   },
                 ),
                 const SizedBox(height: 10.0),
@@ -100,6 +103,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                         .doc(widget.id)
                         .delete();
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        snackBar(context, 'Se ha eliminado una tarea', true));
                   },
                 ),
                 const SizedBox(height: 40.0),

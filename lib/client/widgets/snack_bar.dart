@@ -15,6 +15,6 @@ SnackBar snackBar(BuildContext context, String message, bool error) {
         style: const TextStyle(color: Colors.white, fontSize: 16.0),
       ),
     ),
-    duration: const Duration(seconds: 3),
+    duration: const Duration(seconds: 1),
   );
 }
