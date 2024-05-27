@@ -11,12 +11,23 @@ class TaskRepository {
     Query query = _db.collection('Task').where('userID', isEqualTo: userID);
 
     if (filter == 'pending') {
-      query = query.where('state', isEqualTo: false);
+      return query
+          .where('state', isEqualTo: false)
+          .orderBy('date', descending: false)
+          .orderBy('title', descending: false)
+          .snapshots();
     } else if (filter == 'completed') {
-      query = query.where('state', isEqualTo: true);
+      return query
+          .where('state', isEqualTo: true)
+          .orderBy('date', descending: false)
+          .orderBy('title', descending: false)
+          .snapshots();
     }
 
-    return query.snapshots();
+    return query
+        .orderBy('date', descending: false)
+        .orderBy('title', descending: false)
+        .snapshots();
   }
 
   Future<void> updateTaskState(String id) async {

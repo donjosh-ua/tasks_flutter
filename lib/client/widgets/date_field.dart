@@ -56,7 +56,7 @@ class _DateFieldState extends State<DateField> {
       child: Stack(
         children: <Widget>[
           Container(
-            height: 80.0,
+            height: 70.0,
             width: MediaQuery.of(context).size.width - horizontalScreenPadding,
             decoration: BoxDecoration(
               color: lightPurple,
@@ -70,7 +70,7 @@ class _DateFieldState extends State<DateField> {
                   "${selectedDate.toLocal()}".split(' ')[0],
                   style: const TextStyle(
                     color: darkGray,
-                    fontSize: 18.0,
+                    fontSize: normalFontSize,
                   ),
                 ),
               ),

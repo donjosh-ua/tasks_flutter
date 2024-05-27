@@ -18,6 +18,7 @@ class _FloatingFilterBarState extends State<FloatingFilterBar> {
   Widget build(BuildContext context) {
     return SegmentedButton<FilterBy>(
       style: ButtonStyle(
+          visualDensity: const VisualDensity(horizontal: -4.0, vertical: -4.0),
           foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
           overlayColor: WidgetStateProperty.all<Color>(darkPurple),
           backgroundColor: WidgetStateProperty.all<Color>(accentPurple)),
@@ -25,19 +26,22 @@ class _FloatingFilterBarState extends State<FloatingFilterBar> {
         ButtonSegment<FilterBy>(
           value: FilterBy.all,
           label: Text(
-            'Todas',
+            'Todo',
+            style: TextStyle(fontSize: 12.0),
           ),
         ),
         ButtonSegment<FilterBy>(
           value: FilterBy.pending,
           label: Text(
-            'Pendientes',
+            'Pendiente',
+            style: TextStyle(fontSize: 12.0),
           ),
         ),
         ButtonSegment<FilterBy>(
           value: FilterBy.completed,
           label: Text(
-            'Completadas',
+            'Hecho',
+            style: TextStyle(fontSize: 12.0),
           ),
         ),
       ],

@@ -11,14 +11,14 @@ Widget textArea(
       controller: controller,
       maxLines: 10,
       style: const TextStyle(
-        fontSize: 18.0,
+        fontSize: normalFontSize,
         color: almostBlack,
       ),
       decoration: InputDecoration(
         labelText: text,
         labelStyle: const TextStyle(
-          fontSize: 18.0,
-          color: almostBlack,
+          fontSize: normalFontSize,
+          color: darkGray,
         ),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 25),

@@ -4,8 +4,8 @@ import 'package:test/shared/constants/config.dart';
 
 Widget buttonIcon(String iconDir, Function() onPressed) {
   return SizedBox(
-    width: 100,
-    height: 100,
+    width: buttonIconSize,
+    height: buttonIconSize,
     child: Card(
       elevation: 0.0,
       shape: RoundedRectangleBorder(

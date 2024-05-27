@@ -23,48 +23,59 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          iconSize: 30,
-          tooltip: 'Volver',
-        ),
-        toolbarHeight: 80,
-        centerTitle: true,
-        title: const Text(
-          'Nueva tarea',
-          style: TextStyle(
-            fontSize: 30.0,
-            color: almostBlack,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: appBarColor,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: appBarTextColor,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            iconSize: smallIconSize,
+            tooltip: 'Volver',
+          ),
+          toolbarHeight: appBarHeight,
+          centerTitle: true,
+          title: const Text(
+            'Nueva tarea',
+            style: TextStyle(
+              fontSize: appBarFontSize,
+              color: appBarTextColor,
+            ),
+          ),
+          shape: const Border(
+            bottom: BorderSide(
+              color: appBarLineColor,
+              width: 2.0,
+            ),
           ),
         ),
-        shape: const Border(
-          bottom: BorderSide(
-            color: lightGray,
-            width: 2.0,
-          ),
-        ),
-      ),
-      body: SizedBox(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 40.0),
-              textField(context, "Título", _titleController, false),
-              const SizedBox(height: 20.0),
-              textArea(context, "Descripción", "No tomar antes de bases!",
-                  _descriptionController),
-              const SizedBox(height: 20.0),
-              DateField(controller: _dateController),
-              const SizedBox(height: 60.0),
-              colorButton("Agregar"),
-              const SizedBox(height: 40.0),
-            ],
+        body: SizedBox(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 40.0),
+                textField(
+                  context,
+                  "Título",
+                  _titleController,
+                ),
+                const SizedBox(height: 20.0),
+                textArea(context, "Descripción", "No tomar antes de bases!",
+                    _descriptionController),
+                const SizedBox(height: 20.0),
+                DateField(controller: _dateController),
+                const SizedBox(height: 60.0),
+                colorButton("Agregar"),
+                const SizedBox(height: 40.0),
+              ],
+            ),
           ),
         ),
       ),

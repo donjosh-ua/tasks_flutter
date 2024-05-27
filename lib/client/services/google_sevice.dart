@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:test/client/screens/home_screen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:test/client/screens/splash_screen.dart';
 
 class GoogleService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -34,8 +35,10 @@ class GoogleService {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (builder) =>
-                    HomeScreen(userID: _auth.currentUser!.uid)),
+                builder: (builder) => SplashScreen(
+                    currentScreen: HomeScreen(userID: _auth.currentUser!.uid),
+                    icon: false,
+                    text: 'Bienvenido')),
             (route) => false);
       } catch (e) {
         final snackBar = SnackBar(

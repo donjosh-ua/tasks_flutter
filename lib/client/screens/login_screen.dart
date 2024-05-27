@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:test/client/screens/home_screen.dart';
 import 'package:test/client/screens/signup_screen.dart';
+import 'package:test/client/screens/splash_screen.dart';
 import 'package:test/client/services/google_sevice.dart';
 import 'package:test/client/widgets/button_icon.dart';
+import 'package:test/client/widgets/password_field.dart';
 import 'package:test/client/widgets/snack_bar.dart';
 import 'package:test/client/widgets/text_field.dart';
 import 'package:test/shared/constants/colors.dart';
@@ -26,83 +28,94 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 40.0),
-              const Text("Login",
-                  style: TextStyle(
-                      fontSize: 50.0,
-                      color: darkPurple,
-                      fontWeight: FontWeight.bold)),
-              const SizedBox(height: 60.0),
-              textField(context, "Correo", _emailController, false),
-              const SizedBox(height: 20.0),
-              textField(context, "Contraseña", _passwordController, true),
-              const SizedBox(height: 5.0),
-              SizedBox(
-                width:
-                    MediaQuery.of(context).size.width - horizontalScreenPadding,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "¿Olvidaste tu contraseña?",
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  const Text("Login",
                       style: TextStyle(
-                        fontSize: 16.0,
-                        color: darkPurple,
+                          fontSize: titleFontSize,
+                          color: darkPurple,
+                          fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 40.0),
+                  textField(context, "Correo", _emailController),
+                  const SizedBox(height: 20.0),
+                  PasswordField(
+                    text: "Contraseña",
+                    controller: _passwordController,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width -
+                        horizontalScreenPadding,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "¿Olvidaste tu contraseña?",
+                          style: TextStyle(
+                            fontSize: normalFontSize,
+                            color: darkPurple,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 40.0),
-              colorButton("Iniciar sesión"),
-              const SizedBox(height: 40.0),
-              const Text("O inicia sesión con",
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: almostBlack,
-                  )),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buttonIcon("assets/icons/google_logo.png", () async {
-                    await authService.googleSigIn(context);
-                  }),
-                  const SizedBox(
-                    width: 15,
+                  const SizedBox(height: 20.0),
+                  colorButton("Iniciar sesión"),
+                  const SizedBox(height: 20.0),
+                  const Text("O inicia sesión con",
+                      style: TextStyle(
+                        fontSize: normalFontSize,
+                        color: almostBlack,
+                      )),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buttonIcon("assets/icons/google_logo.png", () async {
+                        await authService.googleSigIn(context);
+                      }),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      buttonIcon("assets/icons/github_logo.png", () async {
+                        // await authService.githubSignIn(context);
+                      }),
+                    ],
                   ),
-                  buttonIcon("assets/icons/github_logo.png", () async {
-                    // await authService.githubSignIn(context);
-                  }),
+                  const SizedBox(height: 10.0),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => const SignUpScreen()),
+                          (route) => false);
+                    },
+                    child: const Text("¿No tienes cuenta? CREA UNA",
+                        style: TextStyle(
+                          fontSize: normalFontSize,
+                          color: darkPurple,
+                        )),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
                 ],
               ),
-              const SizedBox(height: 20.0),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (builder) => const SignUpScreen()),
-                      (route) => false);
-                },
-                child: const Text("¿No tienes cuenta? CREA UNA",
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: darkPurple,
-                    )),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -114,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
       alignment: Alignment.center,
       child: SizedBox(
         width: MediaQuery.of(context).size.width - horizontalScreenPadding,
-        height: 80,
+        height: buttonHeight,
         child: FloatingActionButton(
           onPressed: () async {
             setState(() {
@@ -130,8 +143,11 @@ class _LoginScreenState extends State<LoginScreen> {
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                      builder: (builder) =>
-                          HomeScreen(userID: _auth.currentUser!.uid)),
+                      builder: (builder) => SplashScreen(
+                          currentScreen:
+                              HomeScreen(userID: _auth.currentUser!.uid),
+                          icon: false,
+                          text: 'Bienvenido')),
                   (route) => false);
             } catch (e) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -150,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
               : Text(
                   text,
                   style: const TextStyle(
-                    fontSize: 20.0,
+                    fontSize: buttonFontSize,
                     color: Colors.white,
                   ),
                 ),

@@ -42,9 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: appBarColor,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.logout),
+            color: appBarTextColor,
             onPressed: () async {
               await GoogleService().logOut(context);
               Navigator.pushAndRemoveUntil(
@@ -54,31 +56,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   (route) => false);
             },
             tooltip: 'Cerrar sesión',
-            iconSize: 30,
+            iconSize: smallIconSize,
           ),
           const SizedBox(
             width: 10,
           ),
         ],
-        toolbarHeight: 80,
+        toolbarHeight: appBarHeight,
         centerTitle: true,
         title: const Text(
           'Tareas',
           style: TextStyle(
-            fontSize: 30.0,
-            color: almostBlack,
+            fontSize: appBarFontSize,
+            color: appBarTextColor,
           ),
         ),
         shape: const Border(
           bottom: BorderSide(
-            color: lightGray,
+            color: appBarLineColor,
             width: 2.0,
           ),
         ),
       ),
       floatingActionButton: SizedBox(
-        width: 80.0, // Set the width
-        height: 80.0, // Set the height
+        width: buttonIconSize, // Set the width
+        height: buttonIconSize, // Set the height
         child: FloatingActionButton(
           backgroundColor: accentPurple,
           onPressed: () {
@@ -91,14 +93,14 @@ class _HomeScreenState extends State<HomeScreen> {
           tooltip: 'AddTask',
           child: const Icon(
             Icons.add,
-            size: 60.0,
+            size: 50.0,
             color: lightPurple,
           ),
         ),
       ),
       body: Stack(children: [
         Padding(
-          padding: const EdgeInsets.only(top: 52, bottom: 30),
+          padding: const EdgeInsets.only(top: 40),
           child: StreamBuilder<QuerySnapshot>(
             stream: TaskRepository().getTasks(widget.userID, filter: filter),
             builder: (context, snapshot) {
@@ -111,9 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   controller: _scrollController,
                   itemCount: snapshot.data!.docs.length + 1,
                   itemBuilder: (context, index) {
+                    // esta condicion sirve para que el ultimo elemento sea un espacio en blanco
                     if (index == snapshot.data?.docs.length) {
-                      // Return a SizedBox at the end of the ListView
-                      return const SizedBox(height: 80);
+                      return const SizedBox(height: 100);
                     }
 
                     Map<String, dynamic> document = snapshot.data?.docs[index]
@@ -201,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
       left: 0,
       child: Container(
         alignment: Alignment.center,
-        height: 50,
+        height: 40,
         color: const Color.fromARGB(255, 254, 247, 255),
         width: MediaQuery.of(context).size.width - horizontalScreenPadding,
         child: FloatingFilterBar(

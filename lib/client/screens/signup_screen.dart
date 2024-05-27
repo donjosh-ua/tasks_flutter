@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:test/client/screens/login_screen.dart';
+import 'package:test/client/widgets/password_field.dart';
 import 'package:test/client/widgets/snack_bar.dart';
+import 'package:test/client/widgets/text_field.dart';
 import 'package:test/shared/constants/colors.dart';
 import 'package:test/shared/constants/config.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
@@ -22,40 +24,51 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Sign Up",
-                  style: TextStyle(
-                      fontSize: 50.0,
-                      color: darkPurple,
-                      fontWeight: FontWeight.bold)),
-              const SizedBox(height: 80.0),
-              textField("Correo", _emailController, false),
-              const SizedBox(height: 20.0),
-              textField("Contraseña", _passwordController, true),
-              const SizedBox(height: 60.0),
-              colorButton("Registrarse"),
-              const SizedBox(height: 20.0),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (builder) => const LoginScreen()),
-                      (route) => false);
-                },
-                child: const Text("¿Ya tienes una cuenta? INICIA SESIÓN",
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 40,
+                ),
+                const Text("Registro",
                     style: TextStyle(
-                      fontSize: 16.0,
-                      color: darkPurple,
-                    )),
-              ),
-            ],
+                        fontSize: titleFontSize,
+                        color: darkPurple,
+                        fontWeight: FontWeight.bold)),
+                const SizedBox(height: 60.0),
+                textField(context, "Correo", _emailController),
+                const SizedBox(height: 20.0),
+                PasswordField(
+                  text: "Contraseña",
+                  controller: _passwordController,
+                ),
+                const SizedBox(height: 60.0),
+                colorButton("Registrarse"),
+                const SizedBox(height: 10.0),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => const LoginScreen()),
+                        (route) => false);
+                  },
+                  child: const Text("¿Ya tienes una cuenta? INICIA SESIÓN",
+                      style: TextStyle(
+                        fontSize: normalFontSize,
+                        color: darkPurple,
+                      )),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -107,37 +120,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     color: Colors.white,
                   ),
                 ),
-        ),
-      ),
-    );
-  }
-
-  Widget textField(
-      String text, TextEditingController controller, bool obscureText) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width - horizontalScreenPadding,
-      // height: 80,
-      child: TextField(
-        obscureText: obscureText,
-        controller: controller,
-        style: const TextStyle(
-          fontSize: 18.0,
-          color: almostBlack,
-        ),
-        decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-          hintText: text,
-          filled: true,
-          fillColor: lightPurple,
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: accentPurple, width: 2.0),
-            borderRadius: BorderRadius.circular(roundLabelRadius),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: lightPurple, width: 2.0),
-            borderRadius: BorderRadius.circular(roundLabelRadius),
-          ),
         ),
       ),
     );

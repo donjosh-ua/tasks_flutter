@@ -28,7 +28,8 @@ class TaskCard extends StatelessWidget {
         ),
         color: lightPurple,
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding:
+              const EdgeInsets.only(right: 15.0, left: 15.0, top: 5, bottom: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -50,14 +51,14 @@ class TaskCard extends StatelessWidget {
                     ),
                     Text(
                       date, // Display the date
-                      style: const TextStyle(fontSize: 16, color: darkGray),
+                      style: const TextStyle(fontSize: 14, color: darkGray),
                     ),
                     Text(
                       state
                           ? 'Completada'
                           : 'Pendiente', // Display the state of the task
                       style: TextStyle(
-                          fontSize: 16, color: state ? lightGreen : lightRed),
+                          fontSize: 14, color: state ? lightGreen : lightRed),
                     ),
                   ],
                 ),
@@ -65,7 +66,7 @@ class TaskCard extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: onDelete as void Function()?,
-                iconSize: 30,
+                iconSize: smallIconSize,
                 tooltip: 'Eliminar tarea',
               ),
             ],
