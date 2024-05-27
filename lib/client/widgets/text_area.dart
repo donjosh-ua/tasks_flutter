@@ -6,7 +6,7 @@ Widget textArea(
     context, String text, String hint, TextEditingController controller) {
   return SizedBox(
     width: MediaQuery.of(context).size.width - horizontalScreenPadding,
-    height: 250,
+    height: 200,
     child: TextField(
       controller: controller,
       maxLines: 10,

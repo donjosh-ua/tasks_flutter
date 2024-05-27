@@ -67,7 +67,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   _titleController,
                 ),
                 const SizedBox(height: 20.0),
-                textArea(context, "Descripción", "No tomar antes de bases!",
+                textArea(context, "Descripción", "Bases no se estudia",
                     _descriptionController),
                 const SizedBox(height: 20.0),
                 DateField(controller: _dateController),
@@ -87,9 +87,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       alignment: Alignment.center,
       child: SizedBox(
         width: MediaQuery.of(context).size.width - horizontalScreenPadding,
-        height: 80,
+        height: buttonHeight,
         child: FloatingActionButton(
           onPressed: () {
+            if (_titleController.text.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  snackBar(context, 'La tarea debe tener título', true));
+              return;
+            }
             TaskRepository().addTask({
               'title': _titleController.text,
               'description': _descriptionController.text,
@@ -108,7 +113,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           child: Text(
             text,
             style: const TextStyle(
-              fontSize: 20.0,
+              fontSize: buttonFontSize,
               color: Colors.white,
             ),
           ),

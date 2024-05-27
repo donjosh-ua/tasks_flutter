@@ -80,6 +80,11 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   "Guardar",
                   accentPurple,
                   () {
+                    if (_titleController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar(
+                          context, 'La tarea debe tener título', true));
+                      return;
+                    }
                     TaskRepository().updateTask(
                       widget.id,
                       {
@@ -119,7 +124,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
       alignment: Alignment.center,
       child: SizedBox(
         width: MediaQuery.of(context).size.width - horizontalScreenPadding,
-        height: 60,
+        height: buttonHeight,
         child: FloatingActionButton(
           onPressed: onPressed as void Function()?,
           backgroundColor: color,
@@ -129,7 +134,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
           child: Text(
             text,
             style: const TextStyle(
-              fontSize: 20.0,
+              fontSize: buttonFontSize,
               color: Colors.white,
             ),
           ),

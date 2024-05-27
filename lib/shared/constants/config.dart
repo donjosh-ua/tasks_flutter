@@ -8,7 +8,7 @@ const double cardRadius = 20.0;
 const double cardElevation = 0;
 
 const double cardHeight = 100;
-const double buttonHeight = 70;
+const double buttonHeight = 60;
 const double appBarHeight = 60;
 
 const double buttonIconSize = 80;
